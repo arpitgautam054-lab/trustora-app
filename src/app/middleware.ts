@@ -1,11 +1,10 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
-// Home page ('/') ko protect karne ke liye route matcher
-const isProtectedRoute = createRouteMatcher(['/']);
+const isProtectedRoute = createRouteMatcher(['/(.*)']);
 
-export default clerkMiddleware((auth, req) => {
+export default clerkMiddleware(async (auth, req) => {
   if (isProtectedRoute(req)) {
-    auth().protect(); // Agar login nahi hai, toh login page par bhej do
+    await auth.protect();
   }
 });
 
